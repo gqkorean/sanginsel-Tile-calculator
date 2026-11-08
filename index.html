@@ -40,15 +40,15 @@ main{max-width:1020px;padding:36px 24px 70px;margin:auto}
 .spotlight p{font-size:14px;color:#d4e2f5;margin:9px 0 0}
 .linkbutton{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#173e77;padding:14px 18px;border-radius:13px;font-size:14px;font-weight:900;white-space:nowrap;transition:transform .15s,background .15s}
 .linkbutton:hover{background:#e9f2ff;transform:translateY(-1px)}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:14px}
 .card{border:1px solid var(--line);background:#fff;border-radius:17px;padding:23px;display:flex;align-items:flex-start;gap:16px}
 .card.active:hover{border-color:#8aa9d8;box-shadow:0 7px 22px #244a750c}
 .card.inactive{background:#fafbfd;color:#8793a3}
 .ico{display:grid;place-items:center;flex:0 0 46px;height:46px;border-radius:13px;background:#eef4fd;color:#2e5790;font-size:24px}
 .inactive .ico{background:#f0f2f5;color:#a8b1bd}
 .card-body{flex:1;min-width:0}
-.card h3{font-size:17px;margin:0;letter-spacing:-.4px}
-.card p{font-size:13px;line-height:1.6;color:var(--muted);margin:7px 0 10px}
+.card h3{font-size:19px;margin:0;letter-spacing:-.4px}
+.card p{font-size:14px;line-height:1.65;color:var(--muted);margin:7px 0 10px}
 .inactive p{color:#98a3b2}
 .flag{display:inline-block;font-size:11px;font-weight:800;color:#245286;background:#eef5ff;padding:4px 9px;border-radius:20px}
 .flag.soon{color:#7d8ba0;background:#eef1f5}
@@ -70,34 +70,17 @@ main{max-width:1020px;padding:36px 24px 70px;margin:auto}
     <h1 id="mainTitle">내 가게 공사,<br>자재는 얼마나 필요할까요?</h1>
     <p>공사 시작하기 전에 필요한 자재부터 계산해 보세요.<br>직접 할 건 직접 하고, 맡길 건 맡기고.</p>
   </section>
-  <div class="section-head"><h2>지금 사용할 수 있는 계산기</h2><small>가입 없이 무료</small></div>
-  <section class="spotlight" aria-label="타일 수량 계산기">
-    <div>
-      <p class="overline">타일 · 접착재 · 줄눈</p>
-      <h3>타일 몇 박스 사야 할까요?</h3>
-      <p>공간 가로·세로와 타일 규격을 입력하면<br>타일 장수, 압착시멘트·타일본드, 줄눈재 예상 수량을 계산합니다.</p>
-    </div>
-    <a class="linkbutton" href="./tile/">타일 계산기 열기 <span aria-hidden="true">→</span></a>
-  </section>
-  <div class="section-head"><h2>공사 계산기 모음</h2></div>
-  <section class="cards" aria-label="상인셀 자재 계산기 목록">
+  <div class="section-head"><h2>지금 이용할 수 있는 계산기</h2><small>가입 없이 무료</small></div>
+  <section class="cards" aria-label="이용 가능한 상인셀 자재 계산기">
     <a class="card active" href="./tile/">
       <span class="ico" aria-hidden="true">▦</span>
-      <div class="card-body"><h3>타일 수량 계산기</h3><p>타일 박스 수·압착시멘트·타일본드·줄눈 예상량</p><span class="flag">사용 가능</span></div>
+      <div class="card-body">
+        <h3>타일 수량 계산기</h3>
+        <p>타일 몇 박스, 압착시멘트·타일본드와 줄눈재는 얼마나 필요한지 계산해 보세요.</p>
+        <span class="flag">사용 가능</span>
+      </div>
       <span class="forward" aria-hidden="true">↗</span>
     </a>
-    <div class="card inactive" aria-label="페인트 계산기 준비 중">
-      <span class="ico" aria-hidden="true">▤</span>
-      <div class="card-body"><h3>페인트 계산기</h3><p>벽·천장 도장 면적과 필요한 페인트 양</p><span class="flag soon">준비 중</span></div>
-    </div>
-    <div class="card inactive" aria-label="석고보드 계산기 준비 중">
-      <span class="ico" aria-hidden="true">▥</span>
-      <div class="card-body"><h3>석고보드 계산기</h3><p>시공 면적과 보드 필요 장수</p><span class="flag soon">준비 중</span></div>
-    </div>
-    <div class="card inactive" aria-label="바닥재 계산기 준비 중">
-      <span class="ico" aria-hidden="true">▧</span>
-      <div class="card-body"><h3>바닥재 계산기</h3><p>바닥 면적과 구매 수량 계산</p><span class="flag soon">준비 중</span></div>
-    </div>
   </section>
   <section class="help">
     <div><h2>계산해도 어떤 자재를 사야 할지 헷갈리시나요?</h2><p>현장 사진이나 타일 규격을 올려주세요. 직접 할 수 있는지부터 함께 살펴볼게요. ㅎㅎ</p></div>
