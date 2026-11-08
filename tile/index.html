@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#244879">
+<meta name="description" content="무료 타일 수량 계산기. 공간 가로·세로와 타일 규격을 입력하면 필요한 타일 장수·박스 수, 압착시멘트·타일본드 및 줄눈재 예상 소요량을 자동 계산합니다. 상인셀 공사 계산기.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gqkorean.github.io/sanginsel-Tile-calculator/tile/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="무료 타일 수량 계산기 | 타일 몇 박스·압착시멘트·줄눈 계산 | 상인셀">
+<meta property="og:description" content="공간 크기와 타일 규격만 넣으면 타일 장수·박스, 접착재, 줄눈 예상량을 확인할 수 있어요.">
+<meta property="og:url" content="https://gqkorean.github.io/sanginsel-Tile-calculator/tile/">
+<title>무료 타일 수량 계산기 | 타일 몇 박스·압착시멘트·줄눈 자동 계산 | 상인셀</title>
+<style>
+:root{--blue:#254c87;--blue2:#1b3d71;--ink:#182536;--muted:#60718b;--bg:#f8fafd;--stroke:#d7e0ec;--soft:#f0f5fb;--white:#fff;--warn:#8a5b18}
+*{box-sizing:border-box}[hidden]{display:none!important}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65}a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid #b4cfff;outline-offset:2px}
+header{background:#fff;border-bottom:1px solid #e7ecf4}.top{max-width:820px;min-height:66px;margin:auto;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}.logo{display:inline-flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.7px}.logo-mark{display:inline-grid;place-items:center;background:var(--blue);color:white;width:35px;height:35px;border-radius:50%;font-size:18px}.top a:nth-child(2){font-size:13px;color:var(--muted)}
+.page{max-width:694px;margin:0 auto;padding:34px 18px 50px}.back{font-size:14px;color:var(--muted);font-weight:700}.page h1{font-size:32px;letter-spacing:-1.5px;line-height:1.3;margin:16px 0 7px}.lede{color:var(--muted);font-size:14px;margin:0 0 20px}
+.card{background:var(--white);border:1px solid #cdd9e9;border-radius:17px;padding:21px 20px;margin:15px 0;box-shadow:0 2px 2px #10253f0c}.card h2{font-size:18px;margin:0 0 15px;letter-spacing:-.6px}.card h3{font-size:16px;margin:0 0 13px}.subhead{font-size:14px;font-weight:800;margin:19px 0 9px;color:#293d5c}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}.input-wrap{position:relative}.input-wrap input{width:100%;height:45px;border:1px solid #c9d6e8;border-radius:11px;padding:0 43px 0 13px;outline:0;color:var(--ink);background:#fff}.input-wrap input:focus{border-color:#5b80bc;box-shadow:0 0 0 3px #d9e5f7}.unit{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:800;color:#8392a8}.help{font-size:12px;color:var(--muted);line-height:1.6;margin:7px 0 0}.help .label{color:var(--blue);font-weight:800}.presets,.choices{display:flex;flex-wrap:wrap;gap:8px}.pill{border:1px solid #d4dfef;border-radius:10px;background:#fff;padding:8px 13px;font-size:13px;font-weight:800;color:#4c5f79}.pill[aria-pressed="true"]{background:#e6eefc;color:#143c7a;border-color:#6487be;box-shadow:inset 0 0 0 1px #6487be}.pill:disabled{color:#a4afbf;background:#f5f7fa;cursor:not-allowed}.choices{gap:9px}.choices .pill{flex:1;min-width:130px}.section-divider{margin:20px 0;border:0;border-top:1px solid #edf0f5}.tip{padding:11px 13px;background:#eef4fb;border-radius:10px;color:#4e627b;font-size:12px;margin-top:13px}.warning{padding:11px 13px;background:#fff8e9;border:1px solid #f1dab4;border-radius:10px;color:var(--warn);font-size:12px;margin-top:13px}
+
+/* V4: calculation mode and transparent assumptions */
+.mode-area{margin-top:18px;padding:15px;border:1px solid #ccdbee;border-radius:13px;background:#f7faff}
+.mode-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.mode-head strong{font-size:14px}
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode-btn{background:#fff;border:1px solid #cad8ed;color:#465f7c;padding:12px 8px;border-radius:10px;font-size:14px;font-weight:900}
+.mode-btn[aria-pressed="true"]{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 1px 4px #193d761f}
+.mode-description{font-size:12px;color:#526781;line-height:1.7;margin:10px 0 0}
+.common-waste{margin-top:17px;display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:12px;align-items:center}
+.common-waste .small-title{font-size:14px;font-weight:900;margin:0}
+.common-waste .small-explain{font-size:12px;color:var(--muted);margin:3px 0 0;line-height:1.55}
+.input-wrap input:disabled{background:#eff2f7;color:#67768e;border-color:#dce3ed;cursor:not-allowed;box-shadow:none;opacity:1}
+.setting-locked{font-size:12px;color:#526781;padding:8px 10px;border-radius:9px;background:#eef4fc;margin:0 0 14px}
+.reference-badge{font-size:11px;font-weight:800;color:var(--blue);background:#e9f1ff;border-radius:20px;padding:3px 8px;margin-left:6px}
+@media(max-width:470px){.common-waste{grid-template-columns:minmax(0,1fr) 112px}.mode-btn{font-size:13px;padding:11px 6px}}
+details.advanced{border:1px solid #d9e3ef;border-radius:13px;margin-top:18px;background:#fff}details.advanced>summary{padding:13px 15px;font-weight:800;color:#294875;cursor:pointer;list-style:none;font-size:14px;display:flex;justify-content:space-between;gap:12px}details.advanced>summary::-webkit-details-marker{display:none}details.advanced>summary::after{content:'▾'}details.advanced[open]>summary::after{content:'▴'}.advanced-body{border-top:1px solid #e7edf5;padding:14px}.advanced-body .field-row+.field-row{margin-top:14px}.advanced-note{color:var(--muted);font-size:12px;margin:0 0 14px}.auto-text{color:var(--blue);font-weight:800}
+.results{display:none}.results.visible{display:block}.kpi-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.kpi{border:1px solid #e2e9f3;border-radius:13px;padding:14px;background:#fbfcff}.kpi .name{font-size:12px;font-weight:800;color:#60718b}.kpi .value{font-size:24px;font-weight:900;letter-spacing:-.8px;margin-top:3px;line-height:1.4}.kpi .small{font-size:12px;color:#63748a;margin-top:2px}.kpi .value small{font-size:14px;font-weight:800;color:#526782}.result-table{margin-top:18px;border-top:1px solid #e4ebf3}.line{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #eff2f6;font-size:13px;color:#56677f}.line strong{color:#192a40;font-size:14px;text-align:right;white-space:nowrap}.result-table h3{margin:18px 0 4px;font-size:15px}.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}.btn{background:#fff;border:1px solid #cbd8e9;border-radius:11px;padding:10px 16px;font-size:13px;color:#254771;font-weight:800}.btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn:disabled{opacity:.5;cursor:not-allowed}.form-error{font-size:12px;color:#bd3f38;margin-top:10px;font-weight:800;min-height:0}.status{font-size:12px;color:var(--blue);margin-top:8px;font-weight:800}.empty{color:var(--muted);font-size:14px;padding:24px 12px;text-align:center;border:1px dashed #d6e0ee;border-radius:11px}
+.faq details{background:#fff;border:1px solid #dce5f0;border-radius:12px;margin:9px 0}.faq summary{cursor:pointer;font-weight:800;padding:13px 15px;font-size:13px;list-style:none}.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:'▾';float:right;color:#768da9}.faq details[open] summary::after{content:'▴'}.faq p{margin:0;padding:0 15px 15px;font-size:13px;color:#53667e}.footer{margin:23px 0;color:#7a8aa0;text-align:center;font-size:12px}
+.question-cta{border:1px solid #c6d7ec;background:#f4f8ff;padding:17px;border-radius:13px;margin-top:17px}
+.question-cta h4{font-size:15px;margin:0 0 6px;color:#183b71}
+.question-cta p{font-size:13px;margin:0 0 12px;color:#4c5e7a;line-height:1.75}
+.question-cta .cta-link{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:white;border-radius:10px;padding:11px 16px;font-size:13px;font-weight:900}
+.question-cta small{display:block;font-size:11px;color:#64758e;margin-top:8px}
+
+@media(max-width:470px){.page{padding:25px 12px 36px}.page h1{font-size:27px}.card{padding:17px 14px}.field-row{gap:9px}.pill{font-size:12px;padding:8px 10px}.kpi .value{font-size:22px}.choices .pill{min-width:0}}
+@media print{header,.back,.buttons,.faq,details.advanced,.footer{display:none!important}.page{padding:0;max-width:100%}.card{break-inside:avoid;box-shadow:none}.results{display:block!important}}
+</style>
+</head>
+<body>
+<header><div class="top"><a href="../" class="logo"><span class="logo-mark">상</span>상인셀 계산기</a><a href="https://cafe.naver.com/sanginself" target="_blank" rel="noopener noreferrer">상인셀 카페 ↗</a></div></header>
+<main class="page">
+  <a class="back" href="../">‹ 전체 계산기</a>
+  <h1>타일 수량 계산기</h1>
+  <p class="lede">타일 몇 장, 몇 박스를 사야 할지 고민되시나요? 공간 크기와 타일 규격을 입력하면 <b>타일 수량·박스 수, 압착시멘트·타일본드와 줄눈재 예상 소요량</b>을 한 번에 계산할 수 있어요. 가입 없이 무료로 이용하세요.</p>
+  <section class="card">
+    <h2>공간과 타일 규격</h2>
+    <div class="field-row">
+      <div class="field"><label for="roomW">공간 가로</label><div class="input-wrap"><input id="roomW" type="number" min="0.01" max="1000" step="any" inputmode="decimal" placeholder="예: 4"><span class="unit">m</span></div></div>
+      <div class="field"><label for="roomH">공간 세로</label><div class="input-wrap"><input id="roomH" type="number" min="0.01" max="1000" step="any" inputmode="decimal" placeholder="예: 3"><span class="unit">m</span></div></div>
+    </div>
+    <div class="subhead">타일 규격</div>
+    <div class="presets" role="group" aria-label="타일 규격 선택">
+      <button class="pill preset" type="button" data-w="300" data-h="300" aria-pressed="false">300 × 300</button>
+      <button class="pill preset" type="button" data-w="300" data-h="600" aria-pressed="false">300 × 600</button>
+      <button class="pill preset" type="button" data-w="600" data-h="600" aria-pressed="false">600 × 600</button>
+      <button class="pill preset" type="button" data-w="600" data-h="1200" aria-pressed="false">600 × 1200</button>
+    </div>
+    <div class="field-row" style="margin-top:12px">
+      <div class="field"><label for="tileW">타일 가로</label><div class="input-wrap"><input id="tileW" type="number" min="1" max="3000" step="any" inputmode="numeric"><span class="unit">mm</span></div></div>
+      <div class="field"><label for="tileH">타일 세로</label><div class="input-wrap"><input id="tileH" type="number" min="1" max="3000" step="any" inputmode="numeric"><span class="unit">mm</span></div></div>
+    </div>
+    <hr class="section-divider">
+    <div class="subhead" style="margin-top:0">시공 위치</div>
+    <div class="choices" role="group" aria-label="시공 위치">
+      <button class="pill location" type="button" data-value="floor" aria-pressed="true">바닥</button>
+      <button class="pill location" type="button" data-value="wall" aria-pressed="false">벽</button>
+    </div>
+    <div class="subhead">접착재 종류</div>
+    <div class="choices" role="group" aria-label="접착재 종류">
+      <button class="pill adhesive-type" type="button" data-value="cement" aria-pressed="true">압착시멘트 · 분말형</button>
+      <button class="pill adhesive-type" type="button" data-value="paste" aria-pressed="false">타일본드 · 페이스트형</button>
+    </div>
+    <div class="tip" id="productTip" aria-live="polite">바닥용 시멘트계 접착재를 기준으로 참고량을 계산합니다. 사용 가능한 제품은 바탕면·타일 종류를 확인하세요.</div>
+    <section class="mode-area" aria-label="계산 기준 선택">
+      <div class="mode-head"><strong>계산 기준</strong><span class="reference-badge" id="modeBadge">자동 계산 중</span></div>
+      <div class="mode-switch" role="group" aria-label="자동 계산 또는 직접 설정">
+        <button class="mode-btn" type="button" data-mode="auto" aria-pressed="true">✓ 자동 계산</button>
+        <button class="mode-btn" type="button" data-mode="manual" aria-pressed="false">직접 설정</button>
+      </div>
+      <p class="mode-description" id="modeDescription">자동 계산은 타일 크기와 시공 위치에 따라 접착재 사용량을 정하고, 줄눈 폭 2mm·깊이 8mm를 가정합니다. 상세 사용량 입력란은 잠깁니다.</p>
+    </section>
+    <div class="common-waste">
+      <div>
+        <p class="small-title">공통 여유분</p>
+        <p class="small-explain">타일 · 접착재 · 줄눈재에 <b>같은 비율</b> 적용해요.</p>
+      </div>
+      <div class="field"><label for="commonWaste" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden">공통 여유분 비율</label><div class="input-wrap"><input id="commonWaste" type="number" min="0" max="50" step="1" inputmode="decimal" value="10" aria-label="공통 여유분 비율"><span class="unit">%</span></div></div>
+    </div>
+    <p class="help">기본 10%입니다. 타일 절단 손실과 접착재·줄눈 작업 손실은 실제로 다를 수 있으니 발주 전 현장 조건을 확인하세요.</p>
+    <details class="advanced" id="purchaseDetails">
+      <summary>제품 정보 입력 (선택) <span style="color:#8391a4;font-weight:500">포장 단위 · 가격</span></summary>
+      <div class="advanced-body">
+        <p class="advanced-note">포장 수량은 제품마다 달라요. 이 항목들은 <b>자동 계산 중에도 입력할 수 있어요.</b></p>
+        <div class="field-row">
+          <div class="field"><label for="perBox">타일 박스당 장수 (선택)</label><div class="input-wrap"><input id="perBox" type="number" min="1" max="10000" step="1" inputmode="numeric" placeholder="제품 포장 확인"><span class="unit">장</span></div></div>
+          <div class="field"><label for="adhBag">접착재 한 포장</label><div class="input-wrap"><input id="adhBag" type="number" min="0.1" max="100" step="any" inputmode="decimal" value="20"><span class="unit">kg</span></div></div>
+        </div>
+        <div class="field-row" style="margin-top:14px">
+          <div class="field"><label for="groutBag">줄눈재 한 포장</label><div class="input-wrap"><input id="groutBag" type="number" min="0.1" max="100" step="any" inputmode="decimal" value="2"><span class="unit">kg</span></div></div>
+        </div>
+        <hr class="section-divider">
+        <p class="advanced-note">가격은 선택이에요. 입력하면 예상 구매 비용이 나와요.</p>
+        <div class="field-row">
+          <div class="field"><label for="tilePrice">타일 박스당 가격</label><div class="input-wrap"><input id="tilePrice" type="number" min="0" max="1000000000" step="1" inputmode="numeric" placeholder="선택"><span class="unit">원</span></div></div>
+          <div class="field"><label for="adhPrice">접착재 포장당 가격</label><div class="input-wrap"><input id="adhPrice" type="number" min="0" max="1000000000" step="1" inputmode="numeric" placeholder="선택"><span class="unit">원</span></div></div>
+        </div>
+        <div class="field-row" style="margin-top:14px">
+          <div class="field"><label for="groutPrice">줄눈재 포장당 가격</label><div class="input-wrap"><input id="groutPrice" type="number" min="0" max="1000000000" step="1" inputmode="numeric" placeholder="선택"><span class="unit">원</span></div></div>
+        </div>
+      </div>
+    </details>
+    <details class="advanced" id="rateDetails">
+      <summary>사용량 기준 확인 <span style="color:#8391a4;font-weight:500">자동일 때 입력 잠금</span></summary>
+      <div class="advanced-body">
+        <p class="setting-locked" id="lockMessage">현재 자동 계산 중입니다. 값을 바꾸려면 위에서 ‘직접 설정’을 선택하세요.</p>
+        <div class="field-row">
+          <div class="field"><label for="adhRate">접착재 기준 사용량</label><div class="input-wrap"><input id="adhRate" type="number" min="0.1" max="50" step="0.1" inputmode="decimal" disabled><span class="unit">kg/㎡</span></div><p class="help" id="rateInfo">자동 기준: -</p></div>
+          <div class="field"><label for="jointWidth">줄눈 폭</label><div class="input-wrap"><input id="jointWidth" type="number" min="0.1" max="20" step="any" inputmode="decimal" disabled><span class="unit">mm</span></div></div>
+        </div>
+        <div class="field-row" style="margin-top:14px">
+          <div class="field"><label for="jointDepth">줄눈 채움 깊이</label><div class="input-wrap"><input id="jointDepth" type="number" min="0.1" max="30" step="any" inputmode="decimal" disabled><span class="unit">mm</span></div><p class="help">자동 기본값은 8mm입니다. 실제 타일 두께를 확인하세요.</p></div>
+          <div class="field"><label for="groutFactor">줄눈 재료계수 K</label><div class="input-wrap"><input id="groutFactor" type="number" min="0.5" max="3" step="any" inputmode="decimal" disabled><span class="unit">K</span></div><p class="help">자동 기본값 1.6 · 제품별로 다릅니다.</p></div>
+        </div>
+      </div>
+    </details>
+    <div class="buttons"><button class="btn" type="button" id="example">예시 넣기</button><button class="btn" type="button" id="reset">초기화</button></div>
+    <div class="form-error" id="error" aria-live="polite"></div>
+  </section>
+
+  <section class="card">
+    <h2>계산 결과</h2>
+    <div class="empty" id="empty">공간 가로·세로 길이를 입력하면 자동으로 계산돼요.</div>
+    <div class="results" id="results" aria-live="polite">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="name">시공 면적</div><div class="value"><span id="area">-</span><small>㎡</small></div><div class="small">약 <span id="pyeong">-</span>평</div></div>
+        <div class="kpi"><div class="name">필요 타일</div><div class="value"><span id="tiles">-</span><small>장</small></div><div class="small" id="boxBrief">박스당 장수를 넣으면 박스 수도 표시돼요.</div></div>
+        <div class="kpi"><div class="name" id="adhTitle">압착시멘트</div><div class="value"><span id="adhPacks">-</span><small>포장</small></div><div class="small"><span id="adhMass">-</span>kg 필요</div></div>
+        <div class="kpi"><div class="name">줄눈재</div><div class="value"><span id="groutPacks">-</span><small>포장</small></div><div class="small"><span id="groutMass">-</span>kg 필요</div></div>
+      </div>
+      <div class="result-table">
+        <h3>타일</h3>
+        <div class="line"><span>타일 규격</span><strong id="tileSize">-</strong></div>
+        <div class="line"><span>여유분 제외 이론상 장수</span><strong id="tilesMin">-</strong></div>
+        <div class="line"><span>여유분 포함 필요 장수</span><strong id="tilesFull">-</strong></div>
+        <div class="line"><span>구매 박스 수</span><strong id="boxCount">박스당 장수 입력 시 표시</strong></div>
+        <div class="line" id="tilePriceRow" hidden><span>예상 타일 구매비</span><strong id="tilePriceOut">-</strong></div>
+        <h3 id="adhHeading">압착시멘트</h3>
+        <div class="line"><span>적용 사용량 기준</span><strong id="adhRateOut">-</strong></div>
+        <div class="line"><span>총 필요량 (공통 여유분 포함)</span><strong id="adhMassOut">-</strong></div>
+        <div class="line"><span>구매 포장 수</span><strong id="adhCountOut">-</strong></div>
+        <div class="line" id="adhPriceRow" hidden><span>예상 접착재 구매비</span><strong id="adhPriceOut">-</strong></div>
+        <h3>줄눈재</h3>
+        <div class="line"><span>적용 줄눈 폭 / 채움 깊이</span><strong id="jointOut">-</strong></div>
+        <div class="line"><span>총 필요량 (공통 여유분 포함)</span><strong id="groutMassOut">-</strong></div>
+        <div class="line"><span>구매 포장 수</span><strong id="groutCountOut">-</strong></div>
+        <div class="line" id="groutPriceRow" hidden><span>예상 줄눈 구매비</span><strong id="groutPriceOut">-</strong></div>
+      </div>
+      <div class="warning" id="resultCaution">자동 사용량은 대표적인 제품 자료를 참고한 예시 기준입니다. 제품·바탕면·톱니흙손·시공법에 따라 달라질 수 있어요.</div>
+      <div class="buttons"><button class="btn primary" type="button" id="copy">결과 복사</button><button class="btn" type="button" id="print">인쇄하기</button></div>
+      <div class="status" id="status" aria-live="polite"></div>
+      <div class="question-cta">
+        <h4>계산은 했는데, 어떤 자재를 사야 할지 모르겠나요?</h4>
+        <p>현장 사진이나 타일 규격을 올려주세요. 직접 할 수 있는 작업인지, 어떤 제품을 확인해야 할지 같이 살펴볼게요. ㅎㅎ</p>
+        <a class="cta-link" href="https://cafe.naver.com/sanginself" target="_blank" rel="noopener noreferrer">상인셀 카페에서 질문하기 ↗</a>
+        <small>카페에 들어가면 ‘공사 · 견적 질문’ 게시판을 선택해 주세요. 질문 작성은 카페 가입 후 가능합니다.</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" aria-label="타일 수량 계산기 자주 묻는 질문">
+    <h2 style="font-size:17px;margin:19px 0 12px">타일 계산기 자주 묻는 질문</h2>
+    <details><summary>압착시멘트와 타일본드, 어떤 걸 선택하나요?</summary><p>압착시멘트는 시멘트계 분말형 접착재를 가리키는 선택지예요. 타일본드는 여기서는 실내용 벽에 사용하는 페이스트형 제품을 뜻합니다. 바닥·벽, 습한 곳, 타일 종류, 바탕재에 따라 사용할 수 있는 제품이 달라요. 계산기가 접착재 적합성까지 판정하는 건 아닙니다.</p></details>
+    <details><summary>접착재 사용량은 어떻게 자동으로 정해지나요?</summary><p>시공 위치, 타일 한 변의 최대 길이와 선택한 접착재 종류를 기준으로 대표적인 kg/㎡ 값을 적용합니다. 자동 기준은 예비 구매량을 가늠하는 가정이지 제품별 확정 사용량이 아니에요. 제품 시방서 사용량을 알면 '직접 설정'으로 전환해 수정해 주세요.</p></details>
+    <details><summary>줄눈은 왜 타일 크기만으로 정확히 알 수 없나요?</summary><p>줄눈은 타일 규격 외에도 줄눈 폭, 실제 채움 깊이, 제품의 재료계수에 따라 달라요. 현재는 폭 2mm, 채움 깊이 8mm, 재료계수 1.6을 예시로 사용하고 있어요. 제품 정보가 있다면 '직접 설정'으로 전환해 값을 수정해야 합니다.</p></details>
+    <details><summary>박스당 장수를 몰라도 쓸 수 있나요?</summary><p>네. 공간과 타일 규격만 넣으면 여유분을 포함한 타일 장수, 접착재, 줄눈 예상량이 바로 표시됩니다. 타일 박스 수는 제품마다 장수가 달라서 박스당 장수를 입력한 경우에만 계산합니다.</p></details>
+    <details><summary>공통 여유분 10%는 어디에 적용되나요?</summary><p>타일의 절단·파손 여유, 접착재의 작업 손실, 줄눈재의 작업 손실에 같은 비율을 적용합니다. 입력이 간단하도록 통합한 값이므로 실제 세 자재에 똑같이 적합하다는 의미는 아닙니다. 구매 전 현장 조건과 제품별 소요량을 확인하세요.</p></details>
+  </section>
+  <p class="footer">참고용 자재 수량 계산기 · 실제 구매 전 제품별 시방서와 현장 조건을 확인하세요.<br>상인셀 · 상가 인테리어 셀프</p>
+</main>
+<script>
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const num=id=>{const v=$(id).value.trim();return v===''?NaN:Number(v);};
+  const optional=id=>{const v=$(id).value.trim();return v===''?null:Number(v);};
+  const f=(value,d=2)=>new Intl.NumberFormat('ko-KR',{maximumFractionDigits:d}).format(value);
+  const setText=(id,value)=>{$(id).textContent=value;};
+  let location='floor';
+  let adhesive='cement';
+  let mode='auto';
+  let current=null;
+  const detailIds=['adhRate','jointWidth','jointDepth','groutFactor'];
+  const savedManual={adhRate:null,jointWidth:null,jointDepth:null,groutFactor:null};
+  const defaults={jointWidth:2,jointDepth:8,groutFactor:1.6};
+
+  function defaultRate(tw,th){
+    const edge=Math.max(tw,th);
+    if(adhesive==='paste')return edge<=300?2.0:edge<=600?2.5:3.0;
+    if(location==='floor')return edge<=300?3.0:edge<=600?4.0:5.0;
+    return edge<=300?2.5:edge<=600?3.5:4.5;
+  }
+
+  function autoParams(){
+    return {
+      adhRate:defaultRate(num('tileW'),num('tileH')),
+      jointWidth:defaults.jointWidth,
+      jointDepth:defaults.jointDepth,
+      groutFactor:defaults.groutFactor
+    };
+  }
+  function syncModeFields(){
+    const automatic=mode==='auto';
+    const auto=autoParams();
+    if(automatic){
+      for(const id of detailIds){$(id).value=Number.isFinite(auto[id])?auto[id]:'';$(id).disabled=true;}
+    }else{
+      for(const id of detailIds)$(id).disabled=false;
+    }
+    document.querySelectorAll('.mode-btn').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+    setText('modeBadge',automatic?'자동 계산 중':'직접 설정 중');
+    setText('modeDescription',automatic
+      ? '자동 계산은 타일 크기와 시공 위치에 따라 접착재 사용량을 정하고, 줄눈 폭 2mm·깊이 8mm를 가정합니다. 상세 사용량 입력란은 잠깁니다.'
+      : '제품 시방서나 현장 기준에 맞춰 접착재 사용량, 줄눈 폭·깊이·계수를 직접 바꿀 수 있습니다.');
+    setText('lockMessage',automatic
+      ? '현재 자동 계산 중입니다. 값을 바꾸려면 위에서 ‘직접 설정’을 선택하세요.'
+      : '직접 설정 중입니다. 구매 제품 시방서에 맞춰 아래 사용량을 입력하세요.');
+    setText('rateInfo',`자동 참고 기준 ${f(auto.adhRate,1)}kg/㎡ · 제품별 실제 사용량은 다릅니다.`);
+  }
+
+  function switchMode(next){
+    if(next===mode)return;
+    if(next==='auto'){
+      for(const id of detailIds)savedManual[id]=$(id).value;
+      mode='auto';
+      $('rateDetails').open=false;
+    }else{
+      mode='manual';
+      const reference=autoParams();
+      for(const id of detailIds)$(id).value=savedManual[id]===null?reference[id]:savedManual[id];
+      $('rateDetails').open=true;
+    }
+    render();
+  }
+
+  function syncButtons(){
+    const tw=num('tileW'),th=num('tileH');
+    document.querySelectorAll('.preset').forEach(b=>{
+      b.setAttribute('aria-pressed',String(Number(b.dataset.w)===tw&&Number(b.dataset.h)===th));
+    });
+    document.querySelectorAll('.location').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.value===location)));
+    document.querySelectorAll('.adhesive-type').forEach(b=>{
+      const isPaste=b.dataset.value==='paste';
+      b.disabled=isPaste&&location==='floor';
+      b.title=b.disabled?'일반 페이스트형 벽 타일본드는 바닥용으로 가정하지 않습니다. 사용할 제품의 시방서를 확인하세요.':'';
+      b.setAttribute('aria-pressed',String(b.dataset.value===adhesive));
+    });
+    const name=adhesive==='cement'?'압착시멘트':'타일본드';
+    setText('adhTitle',name);setText('adhHeading',name);
+    setText('productTip',adhesive==='paste'
+      ? '실내용 벽 페이스트형 접착재의 참고량입니다. 큰 타일, 비흡수성 타일, 습한 장소는 해당 제품의 시방서에서 사용 가능 여부를 먼저 확인하세요.'
+      : location==='floor'
+        ? '바닥용 시멘트계 접착재의 참고량입니다. 제품 등급과 바탕면에 맞는 시공법을 확인하세요.'
+        : '벽용 시멘트계 접착재의 참고량입니다. 타일 무게와 미끄럼 저항, 바탕면 조건을 확인하세요.');
+  }
+
+  function render(){
+    syncButtons();
+    syncModeFields();
+    const w=num('roomW'),h=num('roomH'),tw=num('tileW'),th=num('tileH');
+    const perBox=optional('perBox'),waste=num('commonWaste');
+    const auto=autoParams(),rate=num('adhRate');
+    const adhBag=num('adhBag'),jw=num('jointWidth'),jd=num('jointDepth'),groutBag=num('groutBag'),factor=num('groutFactor');
+    const tilePrice=optional('tilePrice'),adhPrice=optional('adhPrice'),groutPrice=optional('groutPrice');
+    const required=[w,h,tw,th,waste,rate,adhBag,jw,jd,groutBag,factor];
+    const valid=required.every(Number.isFinite) && w>0&&w<=1000&&h>0&&h<=1000&&tw>0&&tw<=3000&&th>0&&th<=3000
+      && waste>=0&&waste<=50&&rate>0&&rate<=50&&adhBag>0&&adhBag<=100
+      && jw>0&&jw<=20&&jd>0&&jd<=30&&groutBag>0&&groutBag<=100&&factor>0.5&&factor<=3
+      && (perBox===null||(Number.isInteger(perBox)&&perBox>0&&perBox<=10000))
+      && [tilePrice,adhPrice,groutPrice].every(x=>x===null||(Number.isInteger(x)&&x>=0&&x<=1000000000));
+    const entered=$('roomW').value.trim()!==''&&$('roomH').value.trim()!=='';
+    setText('error',entered&&!valid?'입력값을 확인해 주세요. 길이는 양수, 공통 여유분은 0~50%, 포장 단위는 0보다 커야 합니다.':'');
+    if(!valid){current=null;$('empty').style.display='block';$('results').classList.remove('visible');return;}
+
+    const area=w*h,tileArea=tw*th/1000000;
+    const minTiles=Math.ceil(area/tileArea-1e-9);
+    const totalTiles=Math.ceil(area/tileArea*(1+waste/100)-1e-9);
+    const boxCount=perBox===null?null:Math.ceil(totalTiles/perBox);
+    const adhesiveMass=area*rate*(1+waste/100);
+    const adhesivePacks=Math.ceil(adhesiveMass/adhBag-1e-9);
+    const groutPerM2=(tw+th)/(tw*th)*jw*jd*factor;
+    const groutMass=area*groutPerM2*(1+waste/100);
+    const groutPacks=Math.ceil(groutMass/groutBag-1e-9);
+    if(![area,tileArea,minTiles,totalTiles,adhesiveMass,adhesivePacks,groutMass,groutPacks].every(Number.isFinite)||totalTiles>1e8||adhesivePacks>1e8||groutPacks>1e8){
+      setText('error','계산 범위를 벗어났습니다. 입력값을 확인해 주세요.');current=null;$('empty').style.display='block';$('results').classList.remove('visible');return;
+    }
+    current={w,h,tw,th,area,perBox,waste,adhesive,location,mode,rate,auto,adhBag,jw,jd,groutBag,factor,groutPerM2,tileArea,minTiles,totalTiles,boxCount,adhesiveMass,adhesivePacks,groutMass,groutPacks,tilePrice,adhPrice,groutPrice};
+    setText('area',f(area,3));setText('pyeong',f(area/3.305785));setText('tiles',f(totalTiles,0));
+    setText('boxBrief',boxCount===null?'박스당 장수 입력 시 박스 수도 표시':`${f(boxCount,0)}박스 · 총 ${f(boxCount*perBox,0)}장 구매`);
+    setText('adhPacks',f(adhesivePacks,0));setText('adhMass',f(adhesiveMass,2));
+    setText('groutPacks',f(groutPacks,0));setText('groutMass',f(groutMass,2));
+    setText('tileSize',`${f(tw,0)} × ${f(th,0)}mm`);
+    setText('tilesMin',`${f(minTiles,0)}장`);setText('tilesFull',`${f(totalTiles,0)}장 (공통 여유분 ${f(waste)}%)`);
+    setText('boxCount',boxCount===null?'박스당 장수 입력 시 표시':`${f(boxCount,0)}박스 (총 ${f(boxCount*perBox,0)}장)`);
+    setText('adhRateOut',`${f(rate,2)}kg/㎡ (${mode==='auto'?'자동 참고값':'직접 설정'})`);
+    setText('adhMassOut',`${f(adhesiveMass,2)}kg`);
+    setText('adhCountOut',`${f(adhesivePacks,0)}포장 (포장당 ${f(adhBag,1)}kg)`);
+    setText('jointOut',`${f(jw,1)}mm / ${f(jd,1)}mm`);
+    setText('groutMassOut',`${f(groutMass,2)}kg`);
+    setText('groutCountOut',`${f(groutPacks,0)}포장 (포장당 ${f(groutBag,1)}kg)`);
+    for(const [row,id,price,total] of [
+      ['tilePriceRow','tilePriceOut',tilePrice,boxCount===null?null:tilePrice*boxCount],
+      ['adhPriceRow','adhPriceOut',adhPrice,adhPrice===null?null:adhPrice*adhesivePacks],
+      ['groutPriceRow','groutPriceOut',groutPrice,groutPrice===null?null:groutPrice*groutPacks]
+    ]){const show=price!==null&&total!==null;$(row).hidden=!show;if(show)setText(id,`${f(total,0)}원`);}
+    setText('resultCaution',`${mode==='auto'?'자동 참고 계산':'직접 설정 계산'} · 접착재 ${f(rate,2)}kg/㎡, 줄눈 폭 ${f(jw,1)}mm·깊이 ${f(jd,1)}mm·재료계수 ${f(factor,2)}, 공통 여유분 ${f(waste)}%를 적용했습니다. 타일 절단 손실과 접착재·줄눈재 사용량은 실제 시공법·제품에 따라 달라집니다.`);
+    $('empty').style.display='none';$('results').classList.add('visible');
+  }
+  function resultText(){
+    if(!current)return '';
+    const r=current;return `상인셀 타일 계산 결과\n\n공간: ${r.w}×${r.h}m / ${f(r.area,3)}㎡\n타일: ${r.tw}×${r.th}mm\n시공 위치: ${r.location==='floor'?'바닥':'벽'}\n접착재: ${r.adhesive==='cement'?'압착시멘트(분말형)':'타일본드(페이스트형)'}\n계산 방식: ${r.mode==='auto'?'자동 계산':'직접 설정'}\n공통 여유분: ${f(r.waste)}% (세 자재 모두 적용)\n\n타일 필요량: ${f(r.totalTiles,0)}장\n타일 박스 수: ${r.boxCount===null?'박스당 장수 미입력':`${f(r.boxCount,0)}박스`}\n접착재 기준: ${f(r.rate,2)}kg/㎡\n접착재 필요량: ${f(r.adhesiveMass,2)}kg / ${f(r.adhesivePacks,0)}포장(${f(r.adhBag,1)}kg)\n줄눈 폭·깊이: ${f(r.jw,1)}mm / ${f(r.jd,1)}mm\n줄눈 필요량: ${f(r.groutMass,2)}kg / ${f(r.groutPacks,0)}포장(${f(r.groutBag,1)}kg)\n\n※ 참고용입니다. 타일·접착재·줄눈의 실제 여유분은 다를 수 있으며, 발주 전에 제품 시방서와 현장 조건을 확인하세요.\n상인셀 https://cafe.naver.com/sanginself`;
+  }
+  async function copy(){const s=resultText();if(!s)return;try{await navigator.clipboard.writeText(s);setText('status','계산 결과를 복사했어요.');return;}catch(e){}const ta=document.createElement('textarea');ta.value=s;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}ta.remove();setText('status',ok?'계산 결과를 복사했어요.':'복사할 수 없습니다. 인쇄하기를 사용해 주세요.');}
+  function chooseLocation(v){location=v;if(v==='floor'&&adhesive==='paste')adhesive='cement';render();}
+  function chooseAdhesive(v){if(location==='floor'&&v==='paste')return;adhesive=v;render();}
+  function preset(w,h){$('tileW').value=w;$('tileH').value=h;render();}
+  function example(){reset(false);$('roomW').value=4;$('roomH').value=3;$('perBox').value=4;$('tilePrice').value=24000;render();setText('status','예시를 입력했습니다. 현장 수치로 바꿔서 확인해 보세요.');}
+  function reset(scroll=true){
+    location='floor';adhesive='cement';mode='auto';
+    for(const id of detailIds)savedManual[id]=null;
+    $('roomW').value='';$('roomH').value='';$('tileW').value=600;$('tileH').value=600;
+    $('perBox').value='';$('commonWaste').value=10;$('adhRate').value='';$('adhBag').value=20;
+    $('jointWidth').value=2;$('jointDepth').value=8;$('groutBag').value=2;$('groutFactor').value=1.6;
+    $('tilePrice').value='';$('adhPrice').value='';$('groutPrice').value='';
+    $('rateDetails').open=false;setText('status','');render();if(scroll)window.scrollTo({top:0,behavior:'smooth'});
+  }
+  ['roomW','roomH','tileW','tileH','perBox','commonWaste','adhRate','adhBag','jointWidth','jointDepth','groutBag','groutFactor','tilePrice','adhPrice','groutPrice'].forEach(id=>$(id).addEventListener('input',render));
+  document.querySelectorAll('.preset').forEach(b=>b.addEventListener('click',()=>preset(Number(b.dataset.w),Number(b.dataset.h))));
+  document.querySelectorAll('.location').forEach(b=>b.addEventListener('click',()=>chooseLocation(b.dataset.value)));
+  document.querySelectorAll('.adhesive-type').forEach(b=>b.addEventListener('click',()=>chooseAdhesive(b.dataset.value)));
+  document.querySelectorAll('.mode-btn').forEach(b=>b.addEventListener('click',()=>switchMode(b.dataset.mode)));
+  $('example').addEventListener('click',example);$('reset').addEventListener('click',()=>reset());$('copy').addEventListener('click',copy);$('print').addEventListener('click',()=>{if(current)window.print();});
+  reset(false);
+})();
+</script>
+</body>
+</html>
